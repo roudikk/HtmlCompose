@@ -3,6 +3,7 @@ package com.example.htmlcompose.html
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -10,13 +11,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.navigate
+import androidx.navigation.compose.rememberNavController
 import com.example.htmlcompose.html.composables.*
 import com.example.htmlcompose.theme.MyTheme
 import com.example.htmlcompose.widgets.MainScaffold
 import com.example.htmlcompose.widgets.Toolbar
 
 @Composable
-fun HtmlScreen(html: String) {
+fun HtmlScreen(navController: NavController, html: String) {
 
     val elements = parseHtml(html)
     val scrollState = rememberLazyListState()
@@ -25,11 +29,7 @@ fun HtmlScreen(html: String) {
         topBar = {
             Toolbar(
                 title = "Html",
-                elevation = if (scrollState.firstVisibleItemScrollOffset > 0) {
-                    4.dp
-                } else {
-                    0.dp
-                }
+                lazyListState = scrollState
             )
         },
 
@@ -67,6 +67,12 @@ fun HtmlScreen(html: String) {
                             })
                     }
                 }
+                item {
+                    Button(onClick = { navController.navigate("nested") }) {
+                        Text(text = "Click me")
+                    }
+                    Spacer(modifier = Modifier.size(12.dp))
+                }
             })
     }
 }
@@ -75,7 +81,7 @@ fun HtmlScreen(html: String) {
 @Composable
 private fun HtmlScreenLight() {
     MyTheme(darkTheme = false) {
-        HtmlScreen(TEST_HTML)
+        HtmlScreen(rememberNavController(), TEST_HTML)
     }
 }
 
@@ -83,6 +89,6 @@ private fun HtmlScreenLight() {
 @Composable
 private fun HtmlScreenDark() {
     MyTheme(darkTheme = true) {
-        HtmlScreen(TEST_HTML)
+        HtmlScreen(rememberNavController(), TEST_HTML)
     }
 }

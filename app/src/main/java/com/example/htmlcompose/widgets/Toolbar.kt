@@ -3,6 +3,7 @@ package com.example.htmlcompose.widgets
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -12,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.htmlcompose.theme.MyTheme
 import kotlin.math.ln
@@ -21,9 +21,9 @@ import kotlin.math.ln
 fun Toolbar(
     title: String,
     navigationIcon: @Composable (() -> Unit)? = null,
-    actions: @Composable RowScope.() -> Unit = {},
-    elevation: Dp = 0.dp,
-    darkTheme: Boolean = isSystemInDarkTheme()
+    lazyListState: LazyListState? = null,
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    actions: @Composable RowScope.() -> Unit = {}
 ) {
     val resources = LocalContext.current.resources
     var statusBarHeight = 0f
@@ -31,6 +31,11 @@ fun Toolbar(
     if (resourceId > 0) {
         statusBarHeight = resources.getDimensionPixelSize(resourceId) /
                 resources.displayMetrics.density
+    }
+    val elevation = if (lazyListState != null && lazyListState.firstVisibleItemScrollOffset > 0) {
+        4.dp
+    } else {
+        0.dp
     }
     Box {
         TopAppBar(
@@ -68,7 +73,7 @@ fun Toolbar(
 @Composable
 private fun ToolbarPreviewDark() {
     MyTheme(darkTheme = true) {
-        Toolbar(title = "Dark theme title", elevation = 10.dp)
+        Toolbar(title = "Dark theme title")
     }
 }
 

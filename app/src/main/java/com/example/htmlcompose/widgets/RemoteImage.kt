@@ -20,6 +20,7 @@ import androidx.core.graphics.drawable.toBitmap
 import coil.imageLoader
 import coil.request.ImageRequest
 import com.example.htmlcompose.R
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -34,25 +35,25 @@ fun RemoteImage(
     showPlaceholder: Boolean = true,
     contentScale: ContentScale = ContentScale.Crop
 ) {
-    Log.d("Image", "$imageUrl")
     val placeholderPainter =
         rememberVectorPainter(image = ImageVector.vectorResource(id = R.drawable.image_placeholder))
     var state by remember { mutableStateOf(ImageState(placeholderPainter)) }
     val context = LocalContext.current
 
     if (state.painter == placeholderPainter) {
-        rememberCoroutineScope(getContext = { Dispatchers.IO }).launch {
-            val drawable =
-                context.imageLoader.execute(
+        LaunchedEffect(key1 = imageUrl, block = {
+            CoroutineScope(Dispatchers.IO).launch {
+                val drawable = context.imageLoader.execute(
                     ImageRequest.Builder(context).data(imageUrl).build()
                 ).drawable
-            drawable?.let {
-                withContext(Dispatchers.Main) {
-                    val bitmap = drawable.toBitmap().asImageBitmap()
-                    state = ImageState(BitmapPainter(bitmap))
+                drawable?.let {
+                    withContext(Dispatchers.Main) {
+                        val bitmap = drawable.toBitmap().asImageBitmap()
+                        state = ImageState(BitmapPainter(bitmap))
+                    }
                 }
             }
-        }
+        })
     }
 
     Crossfade(targetState = state, animationSpec = tween(200)) {

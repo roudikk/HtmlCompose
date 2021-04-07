@@ -17,8 +17,8 @@ package com.example.htmlcompose.theme
 
 import androidx.compose.ui.graphics.Color
 
-val primaryColor = Color(0xFF00BCD4)
-val secondaryColor = Color(0xFF00BCD4)
+val primaryColor = Color(0xFF3B2B7A)
+val secondaryColor = Color(0xFF8846C2)
 val surfaceColorLight = Color(0xFFFFFFFF)
 val surfaceColorDark = Color(0xFF121212)
 val errorColor = Color(0xFF993f5d)
