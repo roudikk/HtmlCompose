@@ -5,7 +5,6 @@ import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.core.view.WindowCompat
 import coil.Coil
 import coil.ImageLoader
