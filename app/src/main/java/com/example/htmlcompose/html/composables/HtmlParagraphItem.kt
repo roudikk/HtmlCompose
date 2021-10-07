@@ -1,6 +1,5 @@
 package com.example.htmlcompose.html.composables
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.text.ClickableText
@@ -16,12 +15,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.htmlcompose.html.Paragraph
-import com.example.htmlcompose.html.Style
+import com.example.htmlcompose.html.HtmlParagraph
+import com.example.htmlcompose.html.HtmlStyle
 import com.example.htmlcompose.theme.MyTheme
 
 @Composable
-fun Paragraph(paragraph: Paragraph, modifier: Modifier = Modifier) {
+fun HtmlParagraphItem(paragraph: HtmlParagraph, modifier: Modifier = Modifier) {
     val uriHandler = LocalUriHandler.current
     val annotatedLinkString = buildAnnotatedString {
         withStyle(ParagraphStyle()) {
@@ -29,12 +28,11 @@ fun Paragraph(paragraph: Paragraph, modifier: Modifier = Modifier) {
         }
 
         paragraph.styles.forEach { style ->
-            Log.d("Testing", "Styling ${paragraph.text} $style")
             addStyle(
                 when (style) {
-                    is Style.Bold -> SpanStyle(fontWeight = FontWeight.Bold)
-                    is Style.Italic -> SpanStyle(fontStyle = FontStyle.Italic)
-                    is Style.Link -> SpanStyle(color = MaterialTheme.colors.secondary).also {
+                    is HtmlStyle.Bold -> SpanStyle(fontWeight = FontWeight.Bold)
+                    is HtmlStyle.Italic -> SpanStyle(fontStyle = FontStyle.Italic)
+                    is HtmlStyle.Link -> SpanStyle(color = MaterialTheme.colors.primary).also {
                         addStyle(
                             SpanStyle(
                                 textDecoration = TextDecoration.Underline
@@ -48,8 +46,8 @@ fun Paragraph(paragraph: Paragraph, modifier: Modifier = Modifier) {
                             style.end
                         )
                     }
-                    is Style.Underline -> SpanStyle(textDecoration = TextDecoration.Underline)
-                    is Style.LineThrough -> SpanStyle(textDecoration = TextDecoration.LineThrough)
+                    is HtmlStyle.Underline -> SpanStyle(textDecoration = TextDecoration.Underline)
+                    is HtmlStyle.LineThrough -> SpanStyle(textDecoration = TextDecoration.LineThrough)
                 }, style.beginning, style.end
             )
         }
@@ -68,44 +66,44 @@ fun Paragraph(paragraph: Paragraph, modifier: Modifier = Modifier) {
     )
 }
 
-private val previewData = Paragraph(
+private val previewData = HtmlParagraph(
     text = "This is a html paragraph with multiple styling, including italic," +
             " underline, line through, bold, hyperlink, everything",
     styles = listOf(
-        Style.Italic(
+        HtmlStyle.Italic(
             beginning = 58,
             end = 64
         ),
-        Style.Underline(
+        HtmlStyle.Underline(
             beginning = 66,
             end = 75
         ),
-        Style.LineThrough(
+        HtmlStyle.LineThrough(
             beginning = 77,
             end = 89
         ),
-        Style.Bold(
+        HtmlStyle.Bold(
             beginning = 91,
             end = 95
         ),
-        Style.Link(
+        HtmlStyle.Link(
             beginning = 97,
             end = 106,
             link = ""
         ),
-        Style.Italic(
+        HtmlStyle.Italic(
             beginning = 108,
             end = 118
         ),
-        Style.Underline(
+        HtmlStyle.Underline(
             beginning = 108,
             end = 118
         ),
-        Style.LineThrough(
+        HtmlStyle.LineThrough(
             beginning = 108,
             end = 118
         ),
-        Style.Bold(
+        HtmlStyle.Bold(
             beginning = 108,
             end = 118
         )
@@ -117,7 +115,7 @@ private val previewData = Paragraph(
 private fun PreviewLight() {
     MyTheme(darkTheme = false) {
         Column(modifier = Modifier.background(MaterialTheme.colors.background)) {
-            Paragraph(paragraph = previewData)
+            HtmlParagraphItem(paragraph = previewData)
         }
     }
 }
@@ -127,7 +125,7 @@ private fun PreviewLight() {
 private fun PreviewDark() {
     MyTheme(darkTheme = true) {
         Column(modifier = Modifier.background(MaterialTheme.colors.background)) {
-            Paragraph(paragraph = previewData)
+            HtmlParagraphItem(paragraph = previewData)
         }
     }
 }

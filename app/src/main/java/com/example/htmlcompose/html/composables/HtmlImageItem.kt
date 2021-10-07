@@ -1,5 +1,6 @@
 package com.example.htmlcompose.html.composables
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,17 +10,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.htmlcompose.html.Image
-import com.example.htmlcompose.widgets.RemoteImage
+import coil.compose.rememberImagePainter
+import com.example.htmlcompose.html.HtmlImage
 
 @Composable
-fun Image(image: Image, modifier: Modifier = Modifier) {
+fun HtmlImageItem(image: HtmlImage, modifier: Modifier = Modifier) {
     Box(
         modifier = Modifier.fillMaxWidth(),
         contentAlignment = Alignment.Center
     ) {
-        RemoteImage(
-            imageUrl = image.src,
+        Image(
+            painter = rememberImagePainter(
+                data = image.src,
+                builder = {
+                    crossfade(true)
+                }
+            ),
             contentDescription = image.alt,
             modifier = modifier
                 .fillMaxWidth()
@@ -36,11 +42,11 @@ fun Image(image: Image, modifier: Modifier = Modifier) {
 @Preview
 @Composable
 private fun Preview16x9() {
-    Image(image = Image(src = "src", Size(9f, 16f), alt = "alt"))
+    HtmlImageItem(image = HtmlImage(src = "src", Size(9f, 16f), alt = "alt"))
 }
 
 @Preview
 @Composable
 private fun Preview1x1() {
-    Image(image = Image(src = "src", Size(1f, 1f), alt = "alt"))
+    HtmlImageItem(image = HtmlImage(src = "src", Size(1f, 1f), alt = "alt"))
 }

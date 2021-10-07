@@ -12,7 +12,7 @@ import com.example.htmlcompose.nested.NestedScreen
 fun Navigation() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "home") {
-        composable("home") { HtmlScreen(navController, TEST_HTML) }
+        composable("home") { HtmlScreen(TEST_HTML) }
         composable("nested") { NestedScreen(navController) }
     }
 }

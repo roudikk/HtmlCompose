@@ -9,13 +9,13 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import com.example.htmlcompose.html.Table
+import com.example.htmlcompose.html.HtmlTable
 
 @Composable
-fun Table(table: Table, modifier: Modifier = Modifier) {
+fun HtmlTableItem(table: HtmlTable, modifier: Modifier = Modifier) {
     val columns = table.rows.maxOf { it.cells.size }
     Grid(
-        cols = columns,
+        columnCount = columns,
         list = table.rows.flatMap { it.cells },
         modifier = modifier
     ) { item, isHeader ->
@@ -28,22 +28,22 @@ fun Table(table: Table, modifier: Modifier = Modifier) {
 
 @Composable
 fun <T> Grid(
-    cols: Int = 1,
+    columnCount: Int = 1,
     list: List<T>,
     modifier: Modifier,
     child: @Composable RowScope.(dataModel: T, Boolean) -> Unit
 ) {
 
-    val rows = (list.size / cols) + (if (list.size % cols > 0) 1 else 0)
+    val rows = (list.size / columnCount) + (if (list.size % columnCount > 0) 1 else 0)
 
     Column(modifier = modifier.fillMaxWidth()) {
 
-        for (r in 0 until rows) {
+        for (row in 0 until rows) {
             Row {
-                for (cell in 0 until cols) {
-                    val i = (r * cols) + cell
-                    if (i < list.size) {
-                        child(list[i], r == 0)
+                for (cell in 0 until columnCount) {
+                    val rowIndex = (row * columnCount) + cell
+                    if (rowIndex < list.size) {
+                        child(list[rowIndex], row == 0)
                     } else {
                         break
                     }

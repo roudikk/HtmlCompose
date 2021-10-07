@@ -8,50 +8,55 @@ import org.jsoup.select.NodeVisitor
 
 sealed class HtmlElement
 
-data class Paragraph(val text: String, val styles: List<Style>) : HtmlElement()
-data class Image(val src: String, val size: Size?, val alt: String) : HtmlElement()
-data class Video(val src: String, val size: Size?) : HtmlElement()
-data class OrderedList(val items: List<Paragraph>) : HtmlElement()
-data class UnorderedList(val items: List<Paragraph>) : HtmlElement()
-data class Header(val text: String, val headerSize: HeaderSize) : HtmlElement() {
+data class HtmlParagraph(val text: String, val styles: List<HtmlStyle>) : HtmlElement()
+data class HtmlImage(val src: String, val size: Size?, val alt: String) : HtmlElement()
+data class HtmlVideo(val src: String, val size: Size?) : HtmlElement()
+data class HtmlOrderedList(val items: List<HtmlParagraph>) : HtmlElement()
+data class HtmlUnorderedList(val items: List<HtmlParagraph>) : HtmlElement()
+data class HtmlHeader(val text: String, val headerSize: HeaderSize) : HtmlElement() {
     enum class HeaderSize(val value: String) {
-        H1("h1"), H2("h2"), H3("h3"), H4("h4"), H5("h5"), H6("h6")
+        H1("h1"),
+        H2("h2"),
+        H3("h3"),
+        H4("h4"),
+        H5("h5"),
+        H6("h6")
     }
 }
 
-data class Table(val rows: List<Row>) : HtmlElement() {
+data class HtmlTable(val rows: List<Row>) : HtmlElement() {
     data class Row(val cells: List<String>)
 }
 
-sealed class Style {
+sealed class HtmlStyle {
     abstract val beginning: Int
     abstract val end: Int
 
     data class Bold(
         override val beginning: Int,
         override val end: Int
-    ) : Style()
+    ) : HtmlStyle()
 
     data class Link(
         override val beginning: Int,
         override val end: Int,
         val link: String
-    ) : Style()
+    ) : HtmlStyle()
 
     data class Italic(
         override val beginning: Int,
         override val end: Int
-    ) : Style()
+    ) : HtmlStyle()
 
     data class Underline(
         override val beginning: Int,
         override val end: Int
-    ) : Style()
+    ) : HtmlStyle()
 
     data class LineThrough(
         override val beginning: Int,
         override val end: Int
-    ) : Style()
+    ) : HtmlStyle()
 }
 
 @OptIn(ExperimentalStdlibApi::class)
@@ -63,14 +68,14 @@ fun parseHtml(html: String): List<HtmlElement> {
 
     // Paragraph
     var currentParagraph = StringBuilder("")
-    var currentParagraphStyles = mutableListOf<Style>()
+    var currentParagraphStyles = mutableListOf<HtmlStyle>()
     var currentText: String
     val currentStyleStartIndex: HashMap<String, Int> = hashMapOf()
     var currentHyperlink = ""
     var buildingTable = false
 
     // List
-    var currentListItems = mutableListOf<Paragraph>()
+    var currentListItems = mutableListOf<HtmlParagraph>()
     var traversingList = false
 
     return buildList {
@@ -90,7 +95,7 @@ fun parseHtml(html: String): List<HtmlElement> {
                         if (buildingTable) return
                         val source = node.attr("src")
                         if (source != null) {
-                            add(Video(source, currentVideoSize))
+                            add(HtmlVideo(source, currentVideoSize))
                         }
                     }
                     "p" -> {
@@ -108,9 +113,9 @@ fun parseHtml(html: String): List<HtmlElement> {
                     "h1", "h2", "h3", "h4", "h5", "h6" -> {
                         if (buildingTable) return
                         add(
-                            Header(
+                            HtmlHeader(
                                 text = (node as Element).text(),
-                                headerSize = Header.HeaderSize.values()
+                                headerSize = HtmlHeader.HeaderSize.values()
                                     .first { it.value == node.nodeName() }
                             )
                         )
@@ -135,7 +140,7 @@ fun parseHtml(html: String): List<HtmlElement> {
                     "img" -> {
                         if (buildingTable) return
                         add(
-                            Image(
+                            HtmlImage(
                                 src = node.attr("src"),
                                 size = try {
                                     Size(
@@ -158,7 +163,7 @@ fun parseHtml(html: String): List<HtmlElement> {
                             node.childNodes()
                         }
 
-                        val rows = mutableListOf<Table.Row>()
+                        val rows = mutableListOf<HtmlTable.Row>()
                         nodes
                             .filterIsInstance<Element>()
                             .forEach {
@@ -166,10 +171,10 @@ fun parseHtml(html: String): List<HtmlElement> {
                                 it.childNodes()
                                     .filterIsInstance<Element>()
                                     .forEach { childNode -> cells.add(childNode.text()) }
-                                rows.add(Table.Row(cells))
+                                rows.add(HtmlTable.Row(cells))
                             }
 
-                        add(Table(rows))
+                        add(HtmlTable(rows))
                     }
                 }
             }
@@ -180,7 +185,7 @@ fun parseHtml(html: String): List<HtmlElement> {
                     "b" -> {
                         if (buildingTable) return
                         currentParagraphStyles.add(
-                            Style.Bold(
+                            HtmlStyle.Bold(
                                 beginning = startIndex,
                                 end = currentParagraph.length
                             )
@@ -189,7 +194,7 @@ fun parseHtml(html: String): List<HtmlElement> {
                     "a" -> {
                         if (buildingTable) return
                         currentParagraphStyles.add(
-                            Style.Link(
+                            HtmlStyle.Link(
                                 beginning = startIndex,
                                 end = currentParagraph.length,
                                 link = currentHyperlink
@@ -199,9 +204,9 @@ fun parseHtml(html: String): List<HtmlElement> {
                     "li" -> {
                         if (traversingList) {
                             currentListItems.add(
-                                Paragraph(
+                                HtmlParagraph(
                                     text = currentParagraph.toString(),
-                                    styles = mutableListOf<Style>().apply {
+                                    styles = mutableListOf<HtmlStyle>().apply {
                                         addAll(currentParagraphStyles)
                                     }.toList()
                                 )
@@ -209,15 +214,15 @@ fun parseHtml(html: String): List<HtmlElement> {
                         }
                     }
                     "ul" -> {
-                        add(UnorderedList(items = currentListItems))
+                        add(HtmlUnorderedList(items = currentListItems))
                     }
                     "ol" -> {
-                        add(OrderedList(items = currentListItems))
+                        add(HtmlOrderedList(items = currentListItems))
                     }
                     "u" -> {
                         if (buildingTable) return
                         currentParagraphStyles.add(
-                            Style.Underline(
+                            HtmlStyle.Underline(
                                 beginning = startIndex,
                                 end = currentParagraph.length
                             )
@@ -226,7 +231,7 @@ fun parseHtml(html: String): List<HtmlElement> {
                     "s" -> {
                         if (buildingTable) return
                         currentParagraphStyles.add(
-                            Style.LineThrough(
+                            HtmlStyle.LineThrough(
                                 beginning = startIndex,
                                 end = currentParagraph.length
                             )
@@ -235,7 +240,7 @@ fun parseHtml(html: String): List<HtmlElement> {
                     "i" -> {
                         if (buildingTable) return
                         currentParagraphStyles.add(
-                            Style.Italic(
+                            HtmlStyle.Italic(
                                 beginning = startIndex,
                                 end = currentParagraph.length
                             )
@@ -244,9 +249,9 @@ fun parseHtml(html: String): List<HtmlElement> {
                     "p" -> {
                         if (buildingTable) return
                         add(
-                            Paragraph(
+                            HtmlParagraph(
                                 text = currentParagraph.toString(),
-                                styles = mutableListOf<Style>().apply {
+                                styles = mutableListOf<HtmlStyle>().apply {
                                     addAll(currentParagraphStyles)
                                 }.toList()
                             )
