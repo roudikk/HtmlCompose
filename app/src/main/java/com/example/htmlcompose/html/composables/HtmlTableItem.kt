@@ -18,10 +18,12 @@ fun HtmlTableItem(table: HtmlTable, modifier: Modifier = Modifier) {
         columnCount = columns,
         list = table.rows.flatMap { it.cells },
         modifier = modifier
-    ) { item, isHeader ->
+    ) { item ->
         Text(
-            text = item, Modifier.weight(1f),
-            style = MaterialTheme.typography.body1.copy(fontWeight = if (isHeader) FontWeight.Bold else FontWeight.Normal)
+            text = item.text, Modifier.weight(1f),
+            style = MaterialTheme.typography.body1.copy(
+                fontWeight = if (item.header) FontWeight.Bold else FontWeight.Normal
+            )
         )
     }
 }
@@ -31,19 +33,16 @@ fun <T> Grid(
     columnCount: Int = 1,
     list: List<T>,
     modifier: Modifier,
-    child: @Composable RowScope.(dataModel: T, Boolean) -> Unit
+    child: @Composable RowScope.(dataModel: T) -> Unit
 ) {
-
     val rows = (list.size / columnCount) + (if (list.size % columnCount > 0) 1 else 0)
-
     Column(modifier = modifier.fillMaxWidth()) {
-
         for (row in 0 until rows) {
             Row {
                 for (cell in 0 until columnCount) {
                     val rowIndex = (row * columnCount) + cell
                     if (rowIndex < list.size) {
-                        child(list[rowIndex], row == 0)
+                        child(list[rowIndex])
                     } else {
                         break
                     }

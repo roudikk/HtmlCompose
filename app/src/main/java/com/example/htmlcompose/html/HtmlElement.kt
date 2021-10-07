@@ -25,7 +25,8 @@ data class HtmlHeader(val text: String, val headerSize: HeaderSize) : HtmlElemen
 }
 
 data class HtmlTable(val rows: List<Row>) : HtmlElement() {
-    data class Row(val cells: List<String>)
+    data class Row(val cells: List<Cell>)
+    data class Cell(val text: String, val header: Boolean)
 }
 
 sealed class HtmlStyle {
@@ -167,10 +168,17 @@ fun parseHtml(html: String): List<HtmlElement> {
                         nodes
                             .filterIsInstance<Element>()
                             .forEach {
-                                val cells = mutableListOf<String>()
+                                val cells = mutableListOf<HtmlTable.Cell>()
                                 it.childNodes()
                                     .filterIsInstance<Element>()
-                                    .forEach { childNode -> cells.add(childNode.text()) }
+                                    .forEach { childNode ->
+                                        cells.add(
+                                            HtmlTable.Cell(
+                                                text = childNode.text(),
+                                                header = childNode.nodeName() == "th"
+                                            )
+                                        )
+                                    }
                                 rows.add(HtmlTable.Row(cells))
                             }
 

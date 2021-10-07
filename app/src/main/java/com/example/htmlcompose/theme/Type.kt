@@ -24,6 +24,11 @@ import androidx.compose.ui.unit.sp
 
 // Set of Material typography styles to start with
 fun buildTypography(darkTheme: Boolean): Typography {
+    val headersColor = if (darkTheme) {
+        Color.White
+    } else {
+        Color.Black
+    }
     val textColor = if (darkTheme) {
         Color(0xFFEEEEEE)
     } else {
@@ -43,37 +48,37 @@ fun buildTypography(darkTheme: Boolean): Typography {
             fontSize = 12.sp
         ),
         h1 = TextStyle(
-            color = textColor,
+            color = headersColor,
             fontWeight = FontWeight.Bold,
             fontSize = 60.sp,
             letterSpacing = (-1.5).sp
         ),
         h2 = TextStyle(
-            color = textColor,
+            color = headersColor,
             fontWeight = FontWeight.Bold,
             fontSize = 50.sp,
             letterSpacing = (-0.5).sp
         ),
         h3 = TextStyle(
-            color = textColor,
+            color = headersColor,
             fontWeight = FontWeight.Bold,
             fontSize = 40.sp,
             letterSpacing = 0.sp
         ),
         h4 = TextStyle(
-            color = textColor,
+            color = headersColor,
             fontWeight = FontWeight.Bold,
             fontSize = 30.sp,
             letterSpacing = 0.25.sp
         ),
         h5 = TextStyle(
-            color = textColor,
+            color = headersColor,
             fontWeight = FontWeight.Bold,
             fontSize = 24.sp,
             letterSpacing = 0.sp
         ),
         h6 = TextStyle(
-            color = textColor,
+            color = headersColor,
             fontWeight = FontWeight.Bold,
             fontSize = 20.sp,
             letterSpacing = 0.15.sp

@@ -5,12 +5,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.htmlcompose.html.HtmlScreen
-import com.example.htmlcompose.html.TEST_HTML
+import com.example.htmlcompose.html.DEMO_HTML
 
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "home") {
-        composable("home") { HtmlScreen(TEST_HTML) }
+        composable("home") { HtmlScreen(DEMO_HTML) }
     }
 }
