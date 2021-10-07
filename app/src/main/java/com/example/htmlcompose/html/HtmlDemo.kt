@@ -17,10 +17,6 @@ val DEMO_HTML = """
         <li>Before an image is loaded, its aspect ratio from <u>width</u> and <u>height</u> are used to fill the required space</li>
     </ul>
     
-    <p>Without width/height specified:</p>
-    
-    <img src="https://1.bp.blogspot.com/-9MiK78CFMLM/YQFurOq9AII/AAAAAAAAQ1A/lKj5GiDnO_MkPLb72XqgnvD5uxOsHO-eACLcBGAsYHQ/s0/Android-Compose-1.0-header-v2.png"/>
-    
     <p>With width/height specified:</p>
     
     <img width="1200" height="675" src="https://www.coletiv.com/static/daf4ca2417f6a0330cdcf5b008f08ba6/6050d/android-jetpack-compose-navigation.png"/>

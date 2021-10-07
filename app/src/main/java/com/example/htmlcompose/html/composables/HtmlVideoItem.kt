@@ -78,6 +78,6 @@ fun HtmlVideoItem(
     }
 
     DisposableEffect(Unit) {
-        onDispose { exoPlayer.stop() }
+        onDispose { if (!isPlaying) exoPlayer.stop() }
     }
 }
