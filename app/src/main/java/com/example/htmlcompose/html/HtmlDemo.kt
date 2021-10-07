@@ -2,7 +2,7 @@ package com.example.htmlcompose.html
 
 var TEST_HTML = """
 <body>   
-    <h5>Html Compose Demo</h5>
+    <h4>Html Compose Demo</h4>
     
     <p>This html parser will provide a list of data models that can be used in any way the developer wants, in this example they are used as a list of Composables inside a <a href="https://developer.android.com/jetpack/compose/lists">LazyColumn</a> where each html element is a lazy <b>item</b>.</p>
 
@@ -29,7 +29,11 @@ var TEST_HTML = """
         <li>Prepend an optional <u>baseUrl</u> if the <u>src</u> doesn't start with <b>http</b></li>
         <li>Crossfade loading the images</li>
         <li>Images are cached</li>
+        <li>Before an image is loaded, its aspect ratio from <u>width</u> and <u>height</u> are used to fill the required space
     </ul>
+    
+    <h5>Html Ordered List</h5>
+    
     
 </body>
 """.trimIndent()

@@ -6,6 +6,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.htmlcompose.html.HtmlHeader
 import com.example.htmlcompose.theme.MyTheme
@@ -13,7 +15,10 @@ import com.example.htmlcompose.theme.MyTheme
 @Composable
 fun HtmlHeaderItem(header: HtmlHeader, modifier: Modifier = Modifier) {
     Text(
-        header.text,
+        modifier = modifier.semantics {
+            heading()
+        },
+        text = header.text,
         style = when (header.headerSize) {
             HtmlHeader.HeaderSize.H1 -> MaterialTheme.typography.h1
             HtmlHeader.HeaderSize.H2 -> MaterialTheme.typography.h2
@@ -22,7 +27,6 @@ fun HtmlHeaderItem(header: HtmlHeader, modifier: Modifier = Modifier) {
             HtmlHeader.HeaderSize.H5 -> MaterialTheme.typography.h5
             HtmlHeader.HeaderSize.H6 -> MaterialTheme.typography.h6
         },
-        modifier = modifier
     )
 }
 

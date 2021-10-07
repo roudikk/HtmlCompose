@@ -25,7 +25,9 @@ fun HtmlOrderedListItem(orderedList: HtmlOrderedList, modifier: Modifier = Modif
             Text(text = "${index + 1}. ")
             HtmlParagraphItem(paragraph = item)
         }
-        Spacer(modifier = Modifier.size(4.dp))
+        if (orderedList.items.lastIndex != index) {
+            Spacer(modifier = Modifier.fillMaxWidth().size(4.dp))
+        }
     }
 }
 

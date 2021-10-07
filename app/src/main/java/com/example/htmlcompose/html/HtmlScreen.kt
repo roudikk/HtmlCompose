@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -14,9 +15,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.htmlcompose.html.composables.*
 import com.example.htmlcompose.theme.MyTheme
-import com.example.htmlcompose.widgets.MainScaffold
 import com.example.htmlcompose.widgets.Toolbar
 import com.google.accompanist.insets.ProvideWindowInsets
+import com.google.accompanist.insets.navigationBarsPadding
 import com.google.android.exoplayer2.SimpleExoPlayer
 
 @Composable
@@ -30,7 +31,8 @@ fun HtmlScreen(html: String) = ProvideWindowInsets {
         }
     }
 
-    MainScaffold(
+    Scaffold(
+        modifier = Modifier.navigationBarsPadding(),
         topBar = {
             Toolbar(
                 title = "RoudyK/HtmlCompose",

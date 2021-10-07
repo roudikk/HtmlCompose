@@ -45,25 +45,25 @@ fun buildTypography(darkTheme: Boolean): Typography {
         h1 = TextStyle(
             color = textColor,
             fontWeight = FontWeight.Bold,
-            fontSize = 50.sp,
+            fontSize = 60.sp,
             letterSpacing = (-1.5).sp
         ),
         h2 = TextStyle(
             color = textColor,
             fontWeight = FontWeight.Bold,
-            fontSize = 40.sp,
+            fontSize = 50.sp,
             letterSpacing = (-0.5).sp
         ),
         h3 = TextStyle(
             color = textColor,
             fontWeight = FontWeight.Bold,
-            fontSize = 30.sp,
+            fontSize = 40.sp,
             letterSpacing = 0.sp
         ),
         h4 = TextStyle(
             color = textColor,
             fontWeight = FontWeight.Bold,
-            fontSize = 20.sp,
+            fontSize = 30.sp,
             letterSpacing = 0.25.sp
         ),
         h5 = TextStyle(

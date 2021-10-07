@@ -2,6 +2,7 @@ package com.example.htmlcompose.html.composables
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -15,6 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.htmlcompose.html.HtmlParagraph
 import com.example.htmlcompose.html.HtmlStyle
 import com.example.htmlcompose.theme.MyTheme
@@ -114,7 +116,11 @@ private val previewData = HtmlParagraph(
 @Composable
 private fun PreviewLight() {
     MyTheme(darkTheme = false) {
-        Column(modifier = Modifier.background(MaterialTheme.colors.background)) {
+        Column(
+            modifier = Modifier
+                .widthIn(max = 200.dp)
+                .background(MaterialTheme.colors.background)
+        ) {
             HtmlParagraphItem(paragraph = previewData)
         }
     }
@@ -124,7 +130,11 @@ private fun PreviewLight() {
 @Composable
 private fun PreviewDark() {
     MyTheme(darkTheme = true) {
-        Column(modifier = Modifier.background(MaterialTheme.colors.background)) {
+        Column(
+            modifier = Modifier
+                .widthIn(max = 200.dp)
+                .background(MaterialTheme.colors.background)
+        ) {
             HtmlParagraphItem(paragraph = previewData)
         }
     }
