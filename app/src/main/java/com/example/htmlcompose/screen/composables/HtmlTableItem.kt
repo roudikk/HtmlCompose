@@ -3,14 +3,18 @@ package com.example.htmlcompose.screen.composables
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.htmlcompose.html.HtmlParagraph
 import com.example.htmlcompose.html.HtmlStyle
 import com.example.htmlcompose.html.HtmlTable
+import com.example.htmlcompose.theme.MyTheme
 
 @Composable
 fun HtmlTableItem(table: HtmlTable, modifier: Modifier = Modifier) {
@@ -91,5 +95,90 @@ fun <T> Grid(
                 }
             }
         }
+    }
+}
+
+private val previewData = HtmlTable(
+    rows = listOf(
+        HtmlTable.Row(
+            cells = listOf(
+                HtmlTable.Cell(
+                    paragraph = HtmlParagraph("Header 1"),
+                    header = true
+                ),
+                HtmlTable.Cell(
+                    paragraph = HtmlParagraph("Header 2"),
+                    header = true
+                ),
+                HtmlTable.Cell(
+                    paragraph = HtmlParagraph("Header 3"),
+                    header = true
+                )
+            )
+        ),
+        HtmlTable.Row(
+            cells = listOf(
+                HtmlTable.Cell(
+                    paragraph = HtmlParagraph("Item 1,1"),
+                    header = false
+                ),
+                HtmlTable.Cell(
+                    paragraph = HtmlParagraph("Item 1,2"),
+                    header = false
+                ),
+                HtmlTable.Cell(
+                    paragraph = HtmlParagraph("Item 1,3"),
+                    header = false
+                )
+            )
+        ),
+        HtmlTable.Row(
+            cells = listOf(
+                HtmlTable.Cell(
+                    paragraph = HtmlParagraph("Item 2,1"),
+                    header = false
+                ),
+                HtmlTable.Cell(
+                    paragraph = HtmlParagraph("Item 2,2"),
+                    header = false
+                ),
+                HtmlTable.Cell(
+                    paragraph = HtmlParagraph("Item 2,3"),
+                    header = false
+                )
+            )
+        ),
+        HtmlTable.Row(
+            cells = listOf(
+                HtmlTable.Cell(
+                    paragraph = HtmlParagraph("Item 3,1"),
+                    header = false
+                ),
+                HtmlTable.Cell(
+                    paragraph = HtmlParagraph("Item 3,2"),
+                    header = false
+                ),
+                HtmlTable.Cell(
+                    paragraph = HtmlParagraph("Item 3,3"),
+                    header = false
+                )
+            )
+        ),
+    )
+)
+
+@Preview
+@Composable
+private fun TableLightPreview() = MyTheme(false) {
+    Surface {
+        HtmlTableItem(previewData)
+    }
+}
+
+@Preview
+@Composable
+private fun TableDarkPreview() = MyTheme(true) {
+    Surface {
+        HtmlTableItem(previewData)
     }
 }

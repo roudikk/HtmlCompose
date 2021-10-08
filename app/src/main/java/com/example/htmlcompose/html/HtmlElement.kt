@@ -6,7 +6,7 @@ sealed class HtmlElement
 
 data class HtmlParagraph(
     val text: String,
-    val styles: List<HtmlStyle>
+    val styles: List<HtmlStyle> = emptyList()
 ) : HtmlElement()
 
 data class HtmlImage(

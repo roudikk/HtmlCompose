@@ -15,18 +15,21 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import coil.compose.rememberImagePainter
 import coil.request.videoFrameMillis
 import com.example.htmlcompose.html.HtmlVideo
+import com.example.htmlcompose.theme.MyTheme
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.ui.PlayerView
 
 @Composable
 fun HtmlVideoItem(
-    exoPlayer: SimpleExoPlayer,
+    exoPlayer: SimpleExoPlayer?,
     video: HtmlVideo,
     modifier: Modifier = Modifier
 ) {
@@ -73,12 +76,24 @@ fun HtmlVideoItem(
 
     LaunchedEffect(isPlaying) {
         if (isPlaying) {
-            exoPlayer.setMediaItem(MediaItem.fromUri(Uri.parse(video.src)))
-            exoPlayer.prepare()
+            exoPlayer?.setMediaItem(MediaItem.fromUri(Uri.parse(video.src)))
+            exoPlayer?.prepare()
         }
     }
 
     DisposableEffect(Unit) {
-        onDispose { if (!isPlaying) exoPlayer.stop() }
+        onDispose { if (!isPlaying) exoPlayer?.stop() }
     }
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    HtmlVideoItem(
+        exoPlayer = null,
+        video = HtmlVideo(
+            src = "source",
+            size = null
+        )
+    )
 }
