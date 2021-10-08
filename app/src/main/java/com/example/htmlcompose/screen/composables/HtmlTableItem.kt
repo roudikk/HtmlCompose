@@ -1,30 +1,68 @@
 package com.example.htmlcompose.screen.composables
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.unit.dp
+import com.example.htmlcompose.html.HtmlStyle
 import com.example.htmlcompose.html.HtmlTable
 
 @Composable
 fun HtmlTableItem(table: HtmlTable, modifier: Modifier = Modifier) {
-    val columns = table.rows.maxOf { it.cells.size }
+    val columnCount = table.rows.maxOf { it.cells.size }
+    val cells = table.rows.flatMap { it.cells }
+    val borderColor = MaterialTheme.colors.onSurface
+
     Grid(
-        columnCount = columns,
-        list = table.rows.flatMap { it.cells },
+        columnCount = columnCount,
+        list = cells,
         modifier = modifier
-    ) { item ->
-        Text(
-            text = item.text, Modifier.weight(1f),
-            style = MaterialTheme.typography.body1.copy(
-                fontWeight = if (item.header) FontWeight.Bold else FontWeight.Normal
+    ) { cell ->
+        val index = cells.indexOf(cell)
+        Box(
+            Modifier
+                .weight(1f)
+                .drawBehind {
+                    val strokeWidth = 1.dp.toPx()
+                    val y = size.height - strokeWidth
+
+                    if (cells.lastIndex - index >= columnCount) {
+                        drawLine(
+                            borderColor,
+                            Offset(0f, y),
+                            Offset(size.width, y),
+                            strokeWidth
+                        )
+                    }
+
+                    if ((index + 1) % columnCount != 0) {
+                        drawLine(
+                            borderColor,
+                            Offset(size.width, 0f),
+                            Offset(size.width, size.height),
+                            strokeWidth
+                        )
+                    }
+                },
+            contentAlignment = Alignment.Center
+        ) {
+
+            HtmlParagraphItem(
+                cell.paragraph.copy(
+                    styles = cell.paragraph.styles.toMutableList().apply {
+                        if (cell.header) {
+                            add(HtmlStyle.Bold(0, cell.paragraph.text.length))
+                        }
+                    }.toList()
+                ),
+                Modifier.padding(6.dp)
             )
-        )
+        }
     }
 }
 
@@ -36,7 +74,11 @@ fun <T> Grid(
     child: @Composable RowScope.(dataModel: T) -> Unit
 ) {
     val rows = (list.size / columnCount) + (if (list.size % columnCount > 0) 1 else 0)
-    Column(modifier = modifier.fillMaxWidth()) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .border(1.dp, MaterialTheme.colors.onSurface)
+    ) {
         for (row in 0 until rows) {
             Row {
                 for (cell in 0 until columnCount) {

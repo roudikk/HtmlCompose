@@ -43,26 +43,26 @@ val DEMO_HTML = """
     </ul>
     
     <h5>Html Tables</h5>
-    <p>Basic tables are supported, styling and borders are not.</p>
+    <p>Basic tables are supported, reading borders from css isn't but each item is considered a paragraph and can be styled same as any paragraph</p>
     
     <table>
         <tr>
             <th>Header 1</th>
-            <th>Header 2</th>
+            <th>🔥Header 2</th>
             <th>Header 3</th>
         </tr>
         <tr>
             <td>Item 1,1</td>
-            <td>Item 1,2</td>
+            <td><i>Item</i> <u>1,2</u></td>
             <td>Item 1,3</td>
         </tr>
         <tr>
             <td>Item 2,1</td>
             <td>Item 2,2</td>
-            <td>Item 2,3</td>
+            <td><u>Item 2,3</u></td>
         </tr>
         <tr>
-            <td>Item 3,1</td>
+            <td><s>Item 3,1</s></td>
             <td>Item 3,2</td>
             <td>Item 3,3</td>
         </tr>

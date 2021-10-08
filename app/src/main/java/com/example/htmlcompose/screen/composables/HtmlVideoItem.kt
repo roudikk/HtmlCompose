@@ -53,6 +53,7 @@ fun HtmlVideoItem(
             Image(
                 painter = rememberImagePainter(video.src) {
                     videoFrameMillis(3000)
+                    crossfade(true)
                 },
                 contentDescription = null
             )

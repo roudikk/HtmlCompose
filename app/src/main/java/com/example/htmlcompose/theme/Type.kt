@@ -27,7 +27,7 @@ fun buildTypography(darkTheme: Boolean): Typography {
     val headersColor = if (darkTheme) {
         Color.White
     } else {
-        Color.Black
+        Color(0xFF292929)
     }
     val textColor = if (darkTheme) {
         Color(0xFFEEEEEE)

@@ -1,4 +1,4 @@
-package com.example.htmlcompose.html
+package com.example.htmlcompose.screen
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -18,7 +18,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.htmlcompose.demo.DEMO_HTML
-import com.example.htmlcompose.screen.HtmlViewModel
+import com.example.htmlcompose.html.*
 import com.example.htmlcompose.screen.composables.*
 import com.example.htmlcompose.theme.MyTheme
 import com.example.htmlcompose.widgets.Toolbar
@@ -79,14 +79,14 @@ fun HtmlScreen(html: String) = ProvideWindowInsets {
                 }
 
             val maxWidthModifier = Modifier.widthIn(max = 350.dp)
-            elements.forEachIndexed { index, item ->
+            elements.forEach { item ->
                 item {
                     Column(Modifier.fillMaxWidth()) {
                         when (item) {
                             is HtmlHeader -> HtmlHeaderItem(
                                 item,
                                 Modifier
-                                    .padding(top = if (index == 0) 0.dp else 16.dp)
+                                    .padding(top = 16.dp)
                             )
                             is HtmlImage -> HtmlImageItem(item, maxWidthModifier)
                             is HtmlParagraph -> HtmlParagraphItem(item)
@@ -96,7 +96,10 @@ fun HtmlScreen(html: String) = ProvideWindowInsets {
                                 HtmlUnorderedListItem(item)
                             }
                             is HtmlVideo -> HtmlVideoItem(exoPlayer, item, maxWidthModifier)
-                            is HtmlTable -> HtmlTableItem(item, maxWidthModifier)
+                            is HtmlTable -> HtmlTableItem(
+                                item,
+                                maxWidthModifier.padding(top = 4.dp)
+                            )
                         }
                     }
                 }

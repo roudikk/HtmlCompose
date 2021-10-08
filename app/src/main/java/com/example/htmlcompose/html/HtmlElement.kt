@@ -49,7 +49,7 @@ data class HtmlTable(
     )
 
     data class Cell(
-        val text: String,
+        val paragraph: HtmlParagraph,
         val header: Boolean
     )
 }
