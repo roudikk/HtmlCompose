@@ -1,4 +1,4 @@
-package com.example.htmlcompose.html.composables
+package com.example.htmlcompose.screen.composables
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column

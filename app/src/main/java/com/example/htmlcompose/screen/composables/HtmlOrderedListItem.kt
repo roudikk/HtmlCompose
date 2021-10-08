@@ -1,4 +1,4 @@
-package com.example.htmlcompose.html.composables
+package com.example.htmlcompose.screen.composables
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -7,15 +7,14 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.htmlcompose.html.HtmlOrderedList
+import com.example.htmlcompose.html.HtmlList
 import com.example.htmlcompose.html.HtmlParagraph
 import com.example.htmlcompose.theme.MyTheme
 
 @Composable
-fun HtmlOrderedListItem(orderedList: HtmlOrderedList, modifier: Modifier = Modifier) {
+fun HtmlOrderedListItem(orderedList: HtmlList, modifier: Modifier = Modifier) {
     orderedList.items.forEachIndexed { index, item ->
         Row(
             modifier
@@ -31,13 +30,14 @@ fun HtmlOrderedListItem(orderedList: HtmlOrderedList, modifier: Modifier = Modif
     }
 }
 
-private val previewData = HtmlOrderedList(
+private val previewData = HtmlList(
     items = listOf(
         HtmlParagraph(text = "First item", styles = mutableListOf()),
         HtmlParagraph(text = "Second item", styles = mutableListOf()),
         HtmlParagraph(text = "Third item", styles = mutableListOf()),
         HtmlParagraph(text = "Fourth", styles = mutableListOf())
-    )
+    ),
+    ordered = true
 )
 
 @Preview

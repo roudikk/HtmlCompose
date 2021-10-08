@@ -10,18 +10,16 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.InsertLink
 import androidx.compose.material.icons.filled.Link
-import androidx.compose.material.icons.filled.LinkOff
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.htmlcompose.html.composables.*
+import com.example.htmlcompose.demo.DEMO_HTML
+import com.example.htmlcompose.screen.HtmlViewModel
+import com.example.htmlcompose.screen.composables.*
 import com.example.htmlcompose.theme.MyTheme
 import com.example.htmlcompose.widgets.Toolbar
 import com.google.accompanist.insets.ProvideWindowInsets
@@ -31,7 +29,9 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun HtmlScreen(html: String) = ProvideWindowInsets {
-    val elements = parseHtml(html)
+    val viewModel = remember { HtmlViewModel(html) }
+    val elements by viewModel.elements.collectAsState()
+
     val context = LocalContext.current
     val lazyListState = rememberLazyListState()
     val exoPlayer = remember(context) {
@@ -90,8 +90,11 @@ fun HtmlScreen(html: String) = ProvideWindowInsets {
                             )
                             is HtmlImage -> HtmlImageItem(item, maxWidthModifier)
                             is HtmlParagraph -> HtmlParagraphItem(item)
-                            is HtmlOrderedList -> HtmlOrderedListItem(item)
-                            is HtmlUnorderedList -> HtmlUnorderedListItem(item)
+                            is HtmlList -> if (item.ordered) {
+                                HtmlOrderedListItem(item)
+                            } else {
+                                HtmlUnorderedListItem(item)
+                            }
                             is HtmlVideo -> HtmlVideoItem(exoPlayer, item, maxWidthModifier)
                             is HtmlTable -> HtmlTableItem(item, maxWidthModifier)
                         }

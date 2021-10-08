@@ -1,4 +1,4 @@
-package com.example.htmlcompose.html.composables
+package com.example.htmlcompose.screen.composables
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -13,12 +13,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.htmlcompose.html.HtmlList
 import com.example.htmlcompose.html.HtmlParagraph
-import com.example.htmlcompose.html.HtmlUnorderedList
 import com.example.htmlcompose.theme.MyTheme
 
 @Composable
-fun HtmlUnorderedListItem(unorderedList: HtmlUnorderedList, modifier: Modifier = Modifier) {
+fun HtmlUnorderedListItem(unorderedList: HtmlList, modifier: Modifier = Modifier) {
     val circleTopPadding = 9.dp
     val circleSize: Dp
     with(LocalDensity.current) {
@@ -54,7 +54,7 @@ fun HtmlUnorderedListItem(unorderedList: HtmlUnorderedList, modifier: Modifier =
     }
 }
 
-private val previewData = HtmlUnorderedList(
+private val previewData = HtmlList(
     items = listOf(
         HtmlParagraph(
             text = "First item",
@@ -72,7 +72,8 @@ private val previewData = HtmlUnorderedList(
             text = "Fourth",
             styles = mutableListOf()
         )
-    )
+    ),
+    ordered = false
 )
 
 @Preview

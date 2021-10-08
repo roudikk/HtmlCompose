@@ -1,4 +1,4 @@
-package com.example.htmlcompose.html.composables
+package com.example.htmlcompose.screen.composables
 
 import android.net.Uri
 import androidx.compose.foundation.Image

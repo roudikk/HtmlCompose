@@ -1,4 +1,4 @@
-package com.example.htmlcompose.html
+package com.example.htmlcompose.demo
 
 val DEMO_HTML = """
 <body>   
