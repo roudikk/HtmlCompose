@@ -1,11 +1,17 @@
 package com.example.htmlcompose.html.handler
 
 import androidx.compose.ui.geometry.Size
-import com.example.htmlcompose.html.HtmlElement
+import com.example.htmlcompose.html.HtmlParserOptions
+import com.example.htmlcompose.html.HtmlVideo
+import com.example.htmlcompose.html.handler.base.HtmlTagHandler
+import com.example.htmlcompose.html.prependBaseUrl
 import org.jsoup.nodes.Node
 
-class HtmlVideoHandler : HtmlTagHandler {
+class HtmlVideoHandler(
+    private val options: HtmlParserOptions
+) : HtmlTagHandler {
     private var size: Size? = null
+    private var source = ""
 
     override fun onTagOpening(node: Node) {
         size = runCatching {
@@ -17,21 +23,20 @@ class HtmlVideoHandler : HtmlTagHandler {
     }
 
     override fun onIntermediateTagOpening(node: Node) {
-        when(node.nodeName()){
-            "source"
+        when (node.nodeName()) {
+            "source" -> {
+                source = node.attr("src")
+                    .prependBaseUrl(options.relativePathsBaseUrl)
+            }
         }
     }
 
-    override fun onIntermediateTagClosing(node: Node) {
+    override fun onIntermediateTagClosing(node: Node) {}
 
-    }
+    override fun build() = HtmlVideo(
+        src = source,
+        size = size
+    )
 
-    override fun build(): HtmlElement {
-
-    }
-
-    override fun tags(): List<String> {
-
-    }
-
+    override fun tags() = listOf("video")
 }

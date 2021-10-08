@@ -3,6 +3,7 @@ package com.example.htmlcompose.html.handler
 import androidx.compose.ui.geometry.Size
 import com.example.htmlcompose.html.HtmlImage
 import com.example.htmlcompose.html.HtmlParserOptions
+import com.example.htmlcompose.html.handler.base.HtmlTagHandler
 import com.example.htmlcompose.html.prependBaseUrl
 import org.jsoup.nodes.Node
 

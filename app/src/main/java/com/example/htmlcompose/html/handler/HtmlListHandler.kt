@@ -2,6 +2,7 @@ package com.example.htmlcompose.html.handler
 
 import com.example.htmlcompose.html.HtmlList
 import com.example.htmlcompose.html.HtmlParagraph
+import com.example.htmlcompose.html.handler.base.HtmlTagHandler
 import org.jsoup.nodes.Node
 
 class HtmlListHandler : HtmlTagHandler {

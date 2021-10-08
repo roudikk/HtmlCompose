@@ -1,6 +1,7 @@
 package com.example.htmlcompose.html.handler
 
 import com.example.htmlcompose.html.HtmlHeader
+import com.example.htmlcompose.html.handler.base.HtmlTagHandler
 import org.jsoup.nodes.Element
 import org.jsoup.nodes.Node
 

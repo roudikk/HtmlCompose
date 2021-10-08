@@ -2,7 +2,7 @@ package com.example.htmlcompose.screen
 
 import androidx.lifecycle.ViewModel
 import com.example.htmlcompose.html.HtmlElement
-import com.example.htmlcompose.html.HtmlParser2
+import com.example.htmlcompose.html.HtmlParser
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class HtmlViewModel(html: String) : ViewModel() {
@@ -11,7 +11,7 @@ class HtmlViewModel(html: String) : ViewModel() {
 
     init {
         if (elements.value.isEmpty()) {
-            elements.value = HtmlParser2.parseHtml(html) {
+            elements.value = HtmlParser.parseHtml(html) {
                 // Example builder usage
                 relativeSourcesBaseUrl = null
                 firstTableRowAsHeaders = false
