@@ -43,8 +43,7 @@ fun HtmlImageItem(image: HtmlImage, modifier: Modifier = Modifier) {
     Image(
         painter = painter,
         contentDescription = image.alt,
-        modifier = currentModifier,
-        contentScale = ContentScale.FillBounds
+        modifier = currentModifier
     )
 }
 

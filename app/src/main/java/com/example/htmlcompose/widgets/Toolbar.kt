@@ -25,8 +25,12 @@ fun Toolbar(
     lazyListState: LazyListState? = null,
     actions: @Composable RowScope.() -> Unit = {}
 ) {
-    val elevation = if (lazyListState != null && lazyListState.firstVisibleItemScrollOffset > 0) {
-        4.dp
+    val elevation = if (
+        lazyListState != null
+        && (lazyListState.firstVisibleItemScrollOffset > 0
+                || lazyListState.firstVisibleItemIndex != 0)
+    ) {
+        6.dp
     } else {
         0.dp
     }
@@ -39,7 +43,11 @@ fun Toolbar(
         },
     ) {
         Column {
-            Spacer(modifier = Modifier.statusBarsHeight().fillMaxWidth())
+            Spacer(
+                modifier = Modifier
+                    .statusBarsHeight()
+                    .fillMaxWidth()
+            )
             TopAppBar(
                 elevation = 0.dp,
                 title = {

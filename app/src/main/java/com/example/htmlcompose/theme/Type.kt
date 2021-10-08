@@ -25,12 +25,12 @@ import androidx.compose.ui.unit.sp
 // Set of Material typography styles to start with
 fun buildTypography(darkTheme: Boolean): Typography {
     val headersColor = if (darkTheme) {
-        Color.White
+        Color(0xFFFCFCFC)
     } else {
         Color(0xFF292929)
     }
     val textColor = if (darkTheme) {
-        Color(0xFFEEEEEE)
+        Color(0xFFF0F0F0)
     } else {
         Color(0xFF353535)
     }

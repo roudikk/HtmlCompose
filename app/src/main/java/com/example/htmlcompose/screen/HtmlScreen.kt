@@ -63,7 +63,10 @@ fun HtmlScreen(html: String) = ProvideWindowInsets {
             }
 
             item {
-                Text("Jsoup is being used to traverse the html, then on each element found, it would be added to one of the below data models:")
+                Text(
+                    "Jsoup is being used to traverse the html, then on each element found, it would be added to one of the below data models:",
+                    Modifier.padding(bottom = 16.dp)
+                )
             }
 
             val headers = elements.filterIsInstance<HtmlHeader>()

@@ -25,18 +25,14 @@ import com.example.htmlcompose.theme.*
 
 private val LightColorPalette = lightColors(
     primary = primaryColor,
-    primaryVariant = surfaceColorLight,
     secondary = secondaryColor,
-    onPrimary = Color.Black,
     background = surfaceColorLight,
     error = errorColor
 )
 
 private val DarkColorPalette = darkColors(
     primary = primaryColor,
-    primaryVariant = surfaceColorDark,
     secondary = secondaryColor,
-    onPrimary = Color.White,
     background = surfaceColorDark,
     error = errorColor
 )
