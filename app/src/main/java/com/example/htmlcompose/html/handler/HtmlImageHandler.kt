@@ -8,14 +8,14 @@ import com.example.htmlcompose.html.prependBaseUrl
 import org.jsoup.nodes.Node
 
 class HtmlImageHandler(
-    private val htmlParserOptions: HtmlParserOptions
+    private val options: HtmlParserOptions
 ) : HtmlTagHandler {
     private var source = ""
     private var size: Size? = null
     private var contentDescription = ""
 
     override fun onTagOpening(node: Node) {
-        source = node.attr("src").prependBaseUrl(htmlParserOptions.relativePathsBaseUrl)
+        source = node.attr("src").prependBaseUrl(options.relativePathsBaseUrl)
         size = runCatching {
             Size(
                 width = node.attr("width").toFloat(),

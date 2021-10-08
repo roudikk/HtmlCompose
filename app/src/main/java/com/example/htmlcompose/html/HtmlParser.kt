@@ -2,6 +2,7 @@ package com.example.htmlcompose.html
 
 import com.example.htmlcompose.html.handler.*
 import com.example.htmlcompose.html.handler.base.HtmlTagHandler
+import com.example.htmlcompose.html.handler.base.handlerFor
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Node
 import org.jsoup.select.NodeVisitor
@@ -30,25 +31,23 @@ object HtmlParser {
             HtmlTableHandler(options)
         )
 
-        var currentHtmlTagHandler: HtmlTagHandler? = null
+        var currentTagHandler: HtmlTagHandler? = null
 
         document.traverse(object : NodeVisitor {
             override fun head(node: Node, depth: Int) {
-                if (currentHtmlTagHandler != null) {
-                    currentHtmlTagHandler?.onIntermediateTagOpening(node)
+                if (currentTagHandler != null) {
+                    currentTagHandler?.onIntermediateTagOpening(node)
                 } else {
-                    currentHtmlTagHandler = htmlTagHandlers.firstOrNull {
-                        it.tags().contains(node.nodeName())
-                    }
-                    currentHtmlTagHandler?.onTagOpening(node)
+                    currentTagHandler = htmlTagHandlers.handlerFor(node.nodeName())
+                    currentTagHandler?.onTagOpening(node)
                 }
             }
 
             override fun tail(node: Node, depth: Int) {
-                currentHtmlTagHandler?.let { htmlTagHandler ->
+                currentTagHandler?.let { htmlTagHandler ->
                     if (htmlTagHandler.tags().contains(node.nodeName())) {
                         elements.add(htmlTagHandler.build())
-                        currentHtmlTagHandler = null
+                        currentTagHandler = null
                     } else {
                         htmlTagHandler.onIntermediateTagClosing(node)
                     }

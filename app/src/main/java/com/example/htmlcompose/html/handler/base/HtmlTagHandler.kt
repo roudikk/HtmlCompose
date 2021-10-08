@@ -10,3 +10,7 @@ interface HtmlTagHandler {
     fun build(): HtmlElement
     fun tags(): List<String>
 }
+
+fun List<HtmlTagHandler>.handlerFor(tag: String) = firstOrNull {
+    it.tags().contains(tag)
+}
